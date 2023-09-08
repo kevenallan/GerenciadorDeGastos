@@ -1,0 +1,107 @@
+<div class="container">
+
+    <p-card class="card-valores" header="Saldos">
+        <div class="cards">
+            <div class="card text-bg-primary">
+                <div class="card-header">SALÁRIO</div>
+                <div class="card-body">
+                    <h5 class="card-title">R$ 2.000,00</h5>
+                </div>
+            </div>
+
+            <div class="card text-bg-success" style="max-width: 18rem;">
+                <div class="card-header">GASTOS DESSE MÊS</div>
+                <div class="card-body">
+                    <h5 class="card-title">R$ 600,00</h5>
+                </div>
+            </div>
+
+            <div class="card text-bg-dark" style="max-width: 18rem;">
+                <div class="card-header">TOTAL DE GASTOS DE SETEMBRO</div>
+                <div class="card-body">
+                    <h5 class="card-title">R$ 600,00</h5>
+                </div>
+            </div>
+
+        </div>
+
+    </p-card>
+
+    <p-card class="card-tabela" header="Lista de Gastos">
+        <p-table
+        #tb
+        [value]="gastoList"
+        [(selection)]="gastosSelecionados"
+        dataKey="data"
+        [globalFilterFields]="['descricao']"
+        sortField="'data'"
+        [sortOrder]="1"
+        [paginator]="true"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando de {first} até {last} de {totalRecords} registros"
+        styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped x"
+        responsiveLayout="scroll"
+        [rows]="10"
+        [rowsPerPageOptions]="[5, 10, 25, 50]">
+
+        <ng-template pTemplate="caption">
+            <div class="row">
+                <div class="col-7 text-start">
+                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Filtrar" />
+                </div>
+                <div class="col-2 text-end">
+                    <p-calendar [(ngModel)]="dataInicial" dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+
+                <div class="col-1 text-center" style="display: flex; align-items: center; justify-content: center;">a</div>
+
+                <div class="col-2 text-end">
+                    <p-calendar [(ngModel)]="dataFinal" dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="text-center" style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="text-center" pSortableColumn="data">Data <p-sortIcon field="data"></p-sortIcon></th>
+                <th class="text-center" pSortableColumn="descricao">Descrição <p-sortIcon field="descricao"></p-sortIcon></th>
+                <th class="text-center" pSortableColumn="valor">valor <p-sortIcon field="valor"></p-sortIcon></th>
+                <th class="text-center" pSortableColumn="tipoGasto">Tipos de Gasto <p-sortIcon field="tipo"></p-sortIcon></th>
+                <!-- <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [showClear]="true">
+                            <ng-template let-option pTemplate="item">
+                                <p-tag [value]="option.value" [severity]="getSeverity(option.label)"></p-tag>
+                            </ng-template>
+                        </p-dropdown>
+                    </ng-template>
+                </p-columnFilter> -->
+            </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-gasto>
+                <tr>
+                    <td class="text-center">
+                        <p-tableCheckbox [value]="gasto"></p-tableCheckbox>
+                    </td>
+                    <td class="text-center" >{{gasto.data}}</td>
+                    <td class="text-center" >{{gasto.descricao}}</td>
+                    <td class="text-center" >{{gasto.valor | currency: 'BRL'}}</td>
+                    <td>
+                        <div class="chip-tipo-gasto" *ngFor="let tipoGasto of gasto.tipoGasto" >
+                            <p-chip label="{{tipoGasto}}"></p-chip>
+                        </div>
+                    </td>
+
+                </tr>
+            </ng-template>
+
+        </p-table>
+
+    </p-card>
+
+</div>
+
