@@ -19,6 +19,7 @@ import { ChipModule } from 'primeng/chip';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { TagModule } from 'primeng/tag';
         CalendarModule,
         DropdownModule,
         TagModule,
+        InputTextModule
 
     ],
     providers: [],

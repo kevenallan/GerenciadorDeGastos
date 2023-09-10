@@ -1,33 +1,42 @@
 <div class="container">
 
     <p-card class="card-valores" header="Saldos">
-        <div class="cards">
-            <div class="card text-bg-primary">
-                <div class="card-header">SALÁRIO</div>
-                <div class="card-body">
-                    <h5 class="card-title">R$ 2.000,00</h5>
+        <div class="cards row">
+
+            <div class="col-md-4 col-sm-12 h-25 d-inline-block">
+              <div class="card text-bg-primary" style="max-width: 18rem;">
+                  <div class="card-header" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">SALÁRIO</div>
+                  <div class="card-body">
+                      <h5 class="card-title">R$ 2.000,00</h5>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+                <div class="card text-bg-success" style="max-width: 18rem;">
+                    <div class="card-header" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">GASTOS DESSE MÊS</div>
+                    <div class="card-body">
+                        <h5 class="card-title">R$ 600,00</h5>
+                    </div>
                 </div>
             </div>
 
-            <div class="card text-bg-success" style="max-width: 18rem;">
-                <div class="card-header">GASTOS DESSE MÊS</div>
-                <div class="card-body">
-                    <h5 class="card-title">R$ 600,00</h5>
+            <div class="col-md-4 col-sm-12 ">
+                <div class="card text-bg-dark" style="max-width: 18rem;">
+                    <div class="card-header" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">TOTAL DE GASTOS DE SETEMBRO</div>
+                    <div class="card-body">
+                        <h5 class="card-title">R$ 600,00</h5>
+                    </div>
                 </div>
             </div>
-
-            <div class="card text-bg-dark" style="max-width: 18rem;">
-                <div class="card-header">TOTAL DE GASTOS DE SETEMBRO</div>
-                <div class="card-body">
-                    <h5 class="card-title">R$ 600,00</h5>
-                </div>
-            </div>
-
         </div>
 
     </p-card>
 
     <p-card class="card-tabela" header="Lista de Gastos">
+        <div class="text-end align-items-center mb-3" style="margin-top:-65px;">
+            <p-button icon="pi pi-refresh" styleClass="p-button-rounded p-button-text p-button-raised"></p-button>
+        </div>
         <p-table
         #tb
         [value]="gastoList"
@@ -46,17 +55,20 @@
 
         <ng-template pTemplate="caption">
             <div class="row">
-                <div class="col-7 text-start">
-                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Filtrar" />
+                <div class="col-md-4 col-sm-12 text-start">
+                    <input pInputText type="text" style="width: 100%;" (input)="applyFilterGlobal($event, 'contains')" placeholder="Filtrar" />
                 </div>
-                <div class="col-2 text-end">
-                    <p-calendar [(ngModel)]="dataInicial" dateFormat="dd/mm/yy"></p-calendar>
-                </div>
+                <div class="col-md-8 col-sm-12 ">
+                    <div class="row d-flex justify-content-sm-center justify-content-md-end p-0 m-0">
+                      <div class="col-4 m-0 p-0 text-center">
+                          <p-calendar [(ngModel)]="dataInicial" dateFormat="dd/mm/yy"></p-calendar>
+                      </div>
+                      <div class="col-1 d-flex align-items-center justify-content-center">a</div>
+                      <div class="col-4 m-0 p-0 text-center">
+                          <p-calendar [(ngModel)]="dataFinal" dateFormat="dd/mm/yy"></p-calendar>
+                      </div>
+                    </div>
 
-                <div class="col-1 text-center" style="display: flex; align-items: center; justify-content: center;">a</div>
-
-                <div class="col-2 text-end">
-                    <p-calendar [(ngModel)]="dataFinal" dateFormat="dd/mm/yy"></p-calendar>
                 </div>
             </div>
         </ng-template>
@@ -70,15 +82,17 @@
                 <th class="text-center" pSortableColumn="descricao">Descrição <p-sortIcon field="descricao"></p-sortIcon></th>
                 <th class="text-center" pSortableColumn="valor">valor <p-sortIcon field="valor"></p-sortIcon></th>
                 <th class="text-center" pSortableColumn="tipoGasto">Tipos de Gasto <p-sortIcon field="tipo"></p-sortIcon></th>
-                <!-- <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
-                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                        <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [showClear]="true">
-                            <ng-template let-option pTemplate="item">
-                                <p-tag [value]="option.value" [severity]="getSeverity(option.label)"></p-tag>
-                            </ng-template>
-                        </p-dropdown>
-                    </ng-template>
-                </p-columnFilter> -->
+                <!-- <th style="width:10px">
+                  <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                      <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                          <p-dropdown [ngModel]="value" [options]="tipoGastoList" (onChange)="filter($event.value)" placeholder="Todos" [showClear]="true">
+                              <ng-template let-option pTemplate="item">
+                                  <p-tag [value]="option.value" [severity]="getFiltroTipoGasto(option.label)"></p-tag>
+                              </ng-template>
+                          </p-dropdown>
+                      </ng-template>
+                  </p-columnFilter>
+                </th> -->
             </tr>
             </ng-template>
 
@@ -92,7 +106,8 @@
                     <td class="text-center" >{{gasto.valor | currency: 'BRL'}}</td>
                     <td>
                         <div class="chip-tipo-gasto" *ngFor="let tipoGasto of gasto.tipoGasto" >
-                            <p-chip label="{{tipoGasto}}"></p-chip>
+                            <!-- <p-chip label="{{tipoGasto}}"></p-chip> -->
+                            <div [style.backgroundColor]="tipoGasto.cor" style="border-radius: 40px; text-align: center; border:1px solid black;padding-left: 10px ; padding-right: 10px; color:white; box-shadow: 3px 3px 7px black;">{{tipoGasto.tipo}}</div>
                         </div>
                     </td>
 
@@ -104,4 +119,3 @@
     </p-card>
 
 </div>
-

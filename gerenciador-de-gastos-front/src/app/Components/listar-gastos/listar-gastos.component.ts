@@ -13,15 +13,17 @@ export class ListarGastosComponent {
 
     dataInicial = new Date(2023, 8, 1,);
     dataFinal = new Date(2023, 8, 30,);
+    cor="#18a2b8";
+
 
     gastoList:any;
 
-    // statuses = [{ label: 'Unqualified', value: 'unqualified' },
-    // { label: 'Flash', value: 'flash' },
-    // { label: 'New', value: 'new' },
-    // { label: 'Negotiation', value: 'negotiation' },
-    // { label: 'Renewal', value: 'renewal' },
-    // { label: 'Proposal', value: 'proposal' }]
+    tipoGastoList = [{ label: 'Unqualified', value: 'unqualified' },
+    { label: 'Flash', value: 'Flash' },
+    { label: 'New', value: 'new' },
+    { label: 'Negotiation', value: 'negotiation' },
+    { label: 'Renewal', value: 'renewal' },
+    { label: 'Proposal', value: 'proposal' }]
 
     constructor() { }
 
@@ -31,38 +33,57 @@ export class ListarGastosComponent {
                 data: new Date(Date.UTC(2023, 8, 3, 15, 15, 7)).toLocaleString('pt-BR', { timeZone: 'UTC' }),
                 descricao: "BK",
                 valor:28.50,
-                tipoGasto:["Lanche", "Flash"]
+                tipoGasto:
+                [{
+                    tipo:"Lanche",
+                    cor:"#e100ff"
+                    }]
             },
             {
                 data: new Date(Date.UTC(2023, 8, 3, 17, 0, 7)).toLocaleString('pt-BR', { timeZone: 'UTC' }),
                 descricao: "Americanas",
                 valor:30,
-                tipoGasto:["Santander", "Débito"]
+                tipoGasto:[{
+                    tipo:"Santander",
+                    cor:"#ff2626"
+                    },
+                    {
+                    tipo:"Débito",
+                    cor:"#dbdbdb"
+                    }]
             },
             {
                 data: new Date(Date.UTC(2023, 8, 3, 18, 10, 57)).toLocaleString('pt-BR', { timeZone: 'UTC' }),
                 descricao: " - ",
                 valor:24.89,
-                tipoGasto:["Débito"]
+                tipoGasto:[
+                    {
+                    tipo:"Débito",
+                    cor:"#dbdbdb"
+                    }]
             },
             {
                 data: new Date(Date.UTC(2023, 8, 2, 16, 0, 0)).toLocaleString('pt-BR', { timeZone: 'UTC' }),
                 descricao: "Tarandella",
                 valor:75,
-                tipoGasto:["Flash"]
+                tipoGasto:[
+                    {
+                    tipo:"Flash",
+                    cor:"#f540b8"
+                    }]
             },
-            {
-                data: new Date(Date.UTC(2023, 8, 26, 14, 15, 0)).toLocaleString('pt-BR', { timeZone: 'UTC' }),
-                descricao: "Cinema",
-                valor:38,
-                tipoGasto:["Débito", "Junto"]
-            },
-            {
-                data: new Date(Date.UTC(2023, 8, 26, 14, 15, 0)).toLocaleString('pt-BR', { timeZone: 'UTC' }),
-                descricao: "Lanche - zeny",
-                valor:55,
-                tipoGasto:["Lanche", "Débito", "Junto"]
-            }
+            // {
+            //     data: new Date(Date.UTC(2023, 8, 26, 14, 15, 0)).toLocaleString('pt-BR', { timeZone: 'UTC' }),
+            //     descricao: "Cinema",
+            //     valor:38,
+            //     tipoGasto:["Débito", "Junto"]
+            // },
+            // {
+            //     data: new Date(Date.UTC(2023, 8, 26, 14, 15, 0)).toLocaleString('pt-BR', { timeZone: 'UTC' }),
+            //     descricao: "Lanche - zeny",
+            //     valor:55,
+            //     tipoGasto:["Lanche", "Débito", "Junto"]
+            // }
         ];
     }
 
@@ -70,22 +91,22 @@ export class ListarGastosComponent {
         this.tb!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
     }
 
-    // getSeverity(status: string):any {
-    //     switch (status) {
-    //         case 'unqualified':
-    //             return 'flash';
+    getFiltroTipoGasto(status: string):any {
+        switch (status) {
+            case 'Flash':
+                return 'Flash';
 
-    //         case 'qualified':
-    //             return 'success';
+            case 'qualified':
+                return 'success';
 
-    //         case 'new':
-    //             return 'info';
+            case 'new':
+                return 'info';
 
-    //         case 'negotiation':
-    //             return 'warning';
+            case 'negotiation':
+                return 'warning';
 
-    //         case 'renewal':
-    //             return "";
-    //     }
-    // }
+            case 'renewal':
+                return "";
+        }
+    }
 }
